@@ -1,61 +1,202 @@
+<!DOCTYPE html>
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>
-   ABOUT US
-  </title>
-  <link rel="stylesheet" href="aboutus.css">
-  <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ABOUT US</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  
   <style>
-   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto+Condensed&display=swap');
-  </style>
- </head>
- <body class="relative min-h-screen bg-black font-['Roboto_Condensed'] text-[#c9b07a] overflow-hidden">
-    <nav class="py-4 px-8 flex justify-between items-center sticky top-0 z-50 bg-syntaxDark/90 backdrop-blur-md border-b border-syntaxGray">
-        <div class="font-mono font-semibold text-xl">
-            <span class="text-syntaxCyan"><{</span>
-            <span class="hacker-text">SyntaxSociety Tech Club</span>
-            <span class="text-syntaxCyan">/}></span>
-        </div>
-        <div class="hidden md:flex space-x-8 items-center">
-            <a href="index.html" class="font-mono hover:text-syntaxCyan transition-colors">.home()</a>
-            <a href="Galery.html" class="font-mono hover:text-syntaxCyan transition-colors">.gallery()</a>
-            <a href="index.html" class="font-mono hover:text-syntaxCyan transition-colors">.join us()</a>
-        
+    /* Font Imports */
+    @import url('https://fonts.cdnfonts.com/css/ica-rubrik-black');
+    @import url('https://fonts.cdnfonts.com/css/poppins');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto+Condensed&display=swap');
 
-        </div>
-        <button class="md:hidden" id="menu-toggle">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-syntaxCyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
-        <button id="musicBtn">🎵 </button>
-
-  <audio id="backgroundMusic" loop>
-    <source src="Wuthering Waves — Login OST - Narushio.mp3" type="audio/mp3">
-    Your browser does not support the audio element.
-  </audio>
-
-  <script>
-    
-    const music = document.getElementById('backgroundMusic');
-    const button = document.getElementById('musicBtn');
-    let isPlaying = false;
-
-    button.addEventListener('click', () => {
-      if (isPlaying) {
-        music.pause();
-        button.textContent = '🎵 Play Music';
-      } else {
-        music.play();
-        button.textContent = '🔇 Pause Music';
+    /* Banner Styles */
+    .banner {
+      width: 100%;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .banner .slider {
+      position: absolute;
+      width: 200px;
+      height: 250px;
+      top: 10%;
+      left: calc(50% - 100px);
+      transform-style: preserve-3d;
+      transform: perspective(1000px);
+      animation: autoRun 20s linear infinite;
+      z-index: 2;
+    }
+    @keyframes autoRun {
+      from {
+        transform: perspective(1000px) rotateX(-16deg) rotateY(0deg);
       }
-      isPlaying = !isPlaying;
-    });
-  </script>
+      to {
+        transform: perspective(1000px) rotateX(-16deg) rotateY(360deg);
+      }
+    }
+    .banner .slider .item {
+      position: absolute;
+      inset: 0;
+      transform:
+        rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+        translateZ(550px);
+    }
+    .banner .slider .item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .banner .content {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1400px, 100vw);
+      padding-bottom: 100px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1;
+    }
+    .banner .content h1 {
+      font-family: 'ICA Rubrik';
+      font-size: 16em;
+      line-height: 1em;
+      color: #25283B;
+      position: relative;
+    }
+    .banner .content h1::after {
+      position: absolute;
+      inset: 0;
+      content: attr(data-content);
+      z-index: 2;
+      -webkit-text-stroke: 2px #d2d2d2;
+      color: transparent;
+    }
+    .banner .content .author {
+      font-family: 'Poppins';
+      text-align: right;
+      max-width: 200px;
+    }
+    .banner .content h2 {
+      font-size: 3em;
+    }
+    .banner .content .model {
+      background-image: url(images/model.png);
+      width: 100%;
+      height: 75vh;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-size: auto 130%;
+      background-repeat: no-repeat;
+      background-position: top center;
+      z-index: 1;
+    }
+
+    /* Responsive Styles */
+    @media screen and (max-width: 1023px) {
+      .banner .slider {
+        width: 160px;
+        height: 200px;
+        left: calc(50% - 80px);
+      }
+      .banner .slider .item {
+        transform:
+          rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+          translateZ(300px);
+      }
+      .banner .content h1 {
+        text-align: center;
+        width: 100%;
+        text-shadow: 0 10px 20px #000;
+        font-size: 7em;
+      }
+      .banner .content .author {
+        color: #fff;
+        padding: 20px;
+        text-shadow: 0 10px 20px #000;
+        z-index: 2;
+        width: 100%;
+        text-align: center;
+        padding: 0 30px;
+      }
+    }
+
+    @media screen and (max-width: 767px) {
+      .banner .slider {
+        width: 100px;
+        height: 150px;
+        left: calc(50% - 50px);
+      }
+      .banner .slider .item {
+        transform:
+          rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+          translateZ(180px);
+      }
+      .banner .content h1 {
+        font-size: 5em;
+      }
+    }
+
+    .data-bg {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: 2rem;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen bg-black font-['Roboto_Condensed'] text-[#c9b07a] overflow-x-hidden">
+
+
+  <!-- Navigation -->
+  <nav class="py-4 px-8 flex justify-between items-center sticky top-0 z-50 bg-syntaxDark/90 backdrop-blur-md border-b border-syntaxGray">
+    <div class="font-mono font-semibold text-xl">
+      <span class="text-syntaxCyan"><{</span>
+      <span class="hacker-text">SyntaxSociety Tech Club</span>
+      <span class="text-syntaxCyan">/}></span>
+    </div>
+    <div class="hidden md:flex space-x-8 items-center">
+      <a href="index.html" class="font-mono hover:text-syntaxCyan transition-colors">.home()</a>
+      <a href="Galery.html" class="font-mono hover:text-syntaxCyan transition-colors">.gallery()</a>
+      <a href="index.html" class="font-mono hover:text-syntaxCyan transition-colors">.join us()</a>
+    </div>
+    <button class="md:hidden" id="menu-toggle">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-syntaxCyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+    <button id="musicBtn">🎵</button>
+    <audio id="backgroundMusic" loop>
+      <source src="Wuthering Waves — Login OST - Narushio.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
+    <script>
+      const music = document.getElementById('backgroundMusic');
+      const button = document.getElementById('musicBtn');
+      let isPlaying = false;
+
+      button.addEventListener('click', () => {
+        if (isPlaying) {
+          music.pause();
+          button.textContent = '🎵 Play Music';
+        } else {
+          music.play();
+          button.textContent = '🔇 Pause Music';
+        }
+        isPlaying = !isPlaying;
+      });
+    </script>
+  </nav>
+
+</script>
     </nav>
     <section>
   <div id="background-container" class="absolute inset-0 flex justify-center items-center pointer-events-none transition-opacity duration-500">
@@ -82,30 +223,24 @@
     </div>
     <p class="text-[12px] sm:text-[14px] max-w-[280px] leading-tight" style="color:#c9b07a" id="character-description">
      Our mission is to introduce young students to the exciting world of technology. Through hands-on learning fun projects and mentorship, we help vur juniors tv built foundation skills in different tech domains.
+        
+        What Do We Do?
+        In Syntax Society, we:<BR>
 
-What Do We Do?
-In Syntax Society, we:<BR>
+        🤖 Run AI & tech projects (yes, your resume will thank you)<BR>
 
-🤖 Run AI & tech projects (yes, your resume will thank you)<BR>
+        ⚔ Hold hackathons where sleep is optional and snacks are mandatory<BR>
 
-⚔ Hold hackathons where sleep is optional and snacks are mandatory<BR>
+        🧠 Organize tech talks with people who’ve actually made it in the industry<BR>
 
-🧠 Organize tech talks with people who’ve actually made it in the industry<BR>
-
-🎮 And throw in a few game nights, tech memes, and chill sessions to keep the vibes alive
-Basically, if it involves tech, learning, vr nerdy fun we're in.
+        🎮 And throw in a few game nights, tech memes, and chill sessions to keep the vibes alive
+        Basically, if it involves tech, learning, vr nerdy fun we're in.
+        
     </p>
    </div>
    <nav class="mt-10 sm:mt-0 flex flex-col space-y-4 w-full sm:w-auto" id="character-list">
-    <button aria-label="Select Phrolova" class="flex items-center space-x-3 rounded border border-[#c9b07a] px-3 py-2 max-w-[220px] bg-[#3a2f22cc] hover:bg-[#3a2f22cc] transition-colors focus:outline-none" data-name="PRANAV PRATAP" data-description="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT 2nd YEAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                    FULL-STACK WIZARD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I live in both worlds — frontend and backend — and I speak JavaScript, HTML, CSS, SQL, and APIs like they’re my native languages.
-
-.I design UIs that don’t just look good, they feel good. 
-
-.I write backend logic so solid, even my database tables want to shake hands. 
-
-.I connect the dots with RESTful APIs, making sure the client and server talk like old friends. 
-
-. So, whether it’s deploying full-stack apps, automating workflows, or arguing whether dark mode should be default (spoiler: it should ), I’m all in!"
+    <button aria-label="Select Phrolova" class="flex items-center space-x-3 rounded border border-[#c9b07a] px-3 py-2 max-w-[220px] bg-[#3a2f22cc] hover:bg-[#3a2f22cc] transition-colors focus:outline-none" data-name="PRANAV PRATAP " data-description="IT 2nd YEAR 
+    FULL-STACK WIZARD &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; I live in both worlds — frontend and backend — and I speak JavaScript, HTML, CSS, SQL, and APIs like they’re my native languages.I design UIs that don’t just look good, they feel good.I write backend logic so solid, even my database tables want to shake hands.I connect the dots with RESTful APIs, making sure the client and server talk like old friends.So, whether it’s deploying full-stack apps, automating workflows, or arguing whether dark mode should be default (spoiler: it should ) I’m all in!"
 
 
 " data-bg="bg.jpg" data-img="1.jpg" data-stars="5" type="button">
@@ -116,13 +251,9 @@ Basically, if it involves tech, learning, vr nerdy fun we're in.
     </button>
     <button aria-label="Select Rocci" class="flex items-center space-x-3 rounded bg-[#2a2e5dcc] px-3 py-2 max-w-[220px] hover:bg-[#3a2e5dcc] transition-colors focus:outline-none" data-name="HARSHIT PRASAD" data-description="IT 2nd YEAR 
 AI Alchemist &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
 *Undergrad Student | AI/ML Enthusiast | Code Whisperer
-
 *I turn raw data into stories using Matplotlib, Seaborn, and Plotly — sometimes better than Netflix plots.
-
 *Good hands on NumPy, Pandas, Matplotlib – my holy grail.
-
 * Currently Exploring:
 LLMs, Prompt Engineering
 LangChain & Vector DBs &nbsp;
@@ -134,43 +265,42 @@ Kaggle Competitions (come find me in the leaderboard 👀)
      </span>
     </button>
     <button aria-label="Select Brant" class="flex items-center space-x-3 rounded bg-[#3a3a3acc] px-3 py-2 max-w-[220px] hover:bg-[#3a3a3acc] transition-colors focus:outline-none" data-name="MONIKA" data-description="IT 2nd YEAR
-LOGIC LADY
-
-*While others binge Netflix, I binge on LeetCode, Codeforces, and a healthy dose of debugging rage. I'm that person who treats a failed test case like a personal insult. 
-
-*My strength? Problem-solving under pressure — whether it’s cracking time complexity or surviving C++ pointers without a mental breakdown.
-*From binary trees to dynamic programming, I love optimizing solutions and finding patterns in chaos.
-
-
-" data-bg="bg.jpg" data-img="bg.jpg" data-stars="3" type="button">
+        LOGIC LADY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        *While others binge Netflix, I binge on LeetCode, Codeforces, and a healthy dose of debugging rage. I'm that person who treats a failed test case like a personal insult. 
+        *My strength? Problem-solving under pressure — whether it’s cracking time complexity or surviving C++ pointers without a mental breakdown.
+        From binary trees to dynamic programming, I love optimizing solutions and finding patterns in chaos."
+        data-bg="bg.jpg" data-img="bg.jpg" data-stars="3" type="button">
      <img alt="MONIKA" class="w-20 h-12 object-cover rounded" decoding="async" height="48" loading="lazy" src="3-3.jpg" width="80"/>
      <span class="text-[#c9b07a] text-sm font-['Playfair_Display']">
       MONIKA
      </span>
     </button>
-    <button aria-label="Select Cantata" class="flex items-center space-x-3 rounded bg-[#2a2e5dcc] px-3 py-2 max-w-[220px] hover:bg-[#2a2e5dcc] transition-colors focus:outline-none" data-name="DRHUV GUPTA" data-description="IT-2nd Year Algorithm Architect
-
-I have a strong foundation in problem-solving and logical thinking, and I enjoy tackling coding challenges that test efficiency and optimization. My strengths lie in algorithm design, competitive programming, and writing clean, structured code — primarily in C++.
-I’m excited to be a part of this club, collaborate with like-minded peers, and contribute to technical discussions, coding sessions, and projects that push our skills to the next level."
- data-bg="bg.jpg" data-img="bg.jpg" data-stars="4" type="button">
+        <button aria-label="Select Cantata" class="flex items-center space-x-3 rounded bg-[#2a2e5dcc] px-3 py-2 max-w-[220px] hover:bg-[#2a2e5dcc] transition-colors focus:outline-none" data-name="DRHUV GUPTA" data-description="IT-2nd Year Algorithm Architect ; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        I have a strong foundation in problem-solving and logical thinking, and I enjoy tackling coding challenges that test efficiency and optimization. My strengths lie in algorithm design, competitive programming, and writing clean, structured code — primarily in C++. 
+        I’m excited to be a part of this club, collaborate with like-minded peers, and contribute to technical discussions, coding sessions, and projects that push our skills to the next level."
+        data-bg="bg.jpg" data-img="bg.jpg" data-stars="4" type="button">
      <img alt="2" class="w-20 h-12 object-cover rounded" decoding="async" height="48" loading="lazy" src="4-4.jpg" width="80"/>
      <span class="text-[#c9b07a] text-sm font-['Playfair_Display']">
       DHRUV GUPTA
      </span>
     </button>
-    <button aria-label="Select Rocci" class="flex items-center space-x-3 rounded bg-[#2a2e5dcc] px-3 py-2 max-w-[220px] hover:bg-[#3a2e5dcc] transition-colors focus:outline-none" data-name="ARJUN YADAV" data-description="DESIGNER" data-bg="bg.jpg" data-img="5.jpg" data-stars="4" type="button">
+        <button aria-label="Select Rocci" class="flex items-center space-x-3 rounded bg-[#2a2e5dcc] px-3 py-2 max-w-[220px] hover:bg-[#3a2e5dcc] transition-colors focus:outline-none" data-name="ARJUN YADAV" data-description="DESIGNER &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; I have a strong foundation in visual storytelling and creative problem-solving, and I thrive on transforming ideas into impactful, user-centered designs. My strengths lie in UI/UX design, brand identity, and creating clean, intuitive layouts using tools like Figma, Adobe XD, and Illustrator.
+        I’m excited to be a part of this club, connect with fellow creatives, and contribute to design discussions, brainstorming sessions, and projects that challenge our aesthetic and functional thinking." data-bg="bg.jpg" data-img="5.jpg" data-stars="4" type="button">
      <img alt="ARJUN YADAV" class="w-20 h-12 object-cover rounded" decoding="async" height="48" loading="lazy" src="5-5.jpg" width="80"/>
      <span class="text-[#c9b07a] text-sm font-['Playfair_Display']">
       ARJUN YADAV
      </span>
     </button>
-    <button aria-label="Select Rocci" class="flex items-center space-x-3 rounded bg-[#2a2e5dcc] px-3 py-2 max-w-[220px] hover:bg-[#3a2e5dcc] transition-colors focus:outline-none" data-name="AYUSH KUMAR SINGH RAJPUT" data-description="BACKEND PART  " data-bg="bg.jpg" data-img="6.jpg" data-stars="4" type="button">
+        <button aria-label="Select Rocci" class="flex items-center space-x-3 rounded bg-[#2a2e5dcc] px-3 py-2 max-w-[220px] hover:bg-[#3a2e5dcc] transition-colors focus:outline-none" data-name="AYUSH KUMAR SINGH RAJPUT" data-description="BACKEND DEVLOPER &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I have a strong foundation in system design, logic building, and working behind the scenes to create robust, scalable applications. My strengths lie in backend development, database management, and writing clean, maintainable code — primarily using technologies like Node.js, Express, and SQL/MongoDB.
+        I’m excited to be a part of this club, collaborate with fellow developers, and contribute to projects, discussions, and sessions that deepen our understanding of architecture, APIs, and performance optimization. " data-bg="bg.jpg" data-img="6.jpg" data-stars="4" type="button">
      <img alt="AYUSH KUMAR SINGH RAJPUT" class="w-20 h-12 object-cover rounded" decoding="async" height="48" loading="lazy" src="6-6.jpg" width="80"/>
      <span class="text-[#c9b07a] text-sm font-['Playfair_Display']">
       AYUSH KUMAR SINGH
      </span>
     </button>
-    <button aria-label="Select Rocci" class="flex items-center space-x-3 rounded bg-[#2a2e5dcc] px-3 py-2 max-w-[220px] hover:bg-[#3a2e5dcc] transition-colors focus:outline-none" data-name="ANSH" data-description="SQL" data-bg="bg.jpg" data-img="7.jpg" data-stars="4" type="button">
+        <button aria-label="Select Rocci" class="flex items-center space-x-3 rounded bg-[#2a2e5dcc] px-3 py-2 max-w-[220px] hover:bg-[#3a2e5dcc] transition-colors focus:outline-none" data-name="ANSH" data-description="SQL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        I have a strong foundation in relational databases and enjoy working with data to drive insights and optimize system performance. My strengths lie in writing efficient SQL queries, designing normalized schemas, and managing large datasets with precision. I’m also comfortable with tools like MySQL, PostgreSQL, and SQL Server.
+        I’m excited to be a part of this club, collaborate with peers who value clean data and smart architecture, and contribute to data-driven projects, discussions, and challenges that sharpen our querying and analytical skills." data-bg="bg.jpg" data-img="7.jpg" data-stars="4" type="button">
      <img alt="ANSH" class="w-20 h-12 object-cover rounded" decoding="async" height="48" loading="lazy" src="7-7.jpg" width="80"/>
      <span class="text-[#c9b07a] text-sm font-['Playfair_Display']">
       ANSH
@@ -264,18 +394,19 @@ I’m excited to be a part of this club, collaborate with like-minded peers, and
     });
    })();
   </script>
+
   <!-- Footer -->
-    <footer class="py-8 px-8 border-t border-syntaxGray">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
-            <div class="font-mono">
-                <span class="text-syntaxCyan"><{</span>
-                <span class="hacker-text">SyntaxSociety</span>
-                <span class="text-syntaxCyan">/}></span>
-            </div>
-            <div class="text-xs text-slate-400 mt-4 md:mt-0">
-                © 2023 Syntax Society | Built with passion by developer, for developers
-            </div>
-        </div>
-    </footer>
- </body>
+  <footer class="py-8 px-8 border-t border-syntaxGray">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+      <div class="font-mono">
+        <span class="text-syntaxCyan"><{</span>
+        <span class="hacker-text">SyntaxSociety</span>
+        <span class="text-syntaxCyan">/}></span>
+      </div>
+      <div class="text-xs text-slate-400 mt-4 md:mt-0">
+        © 2025 Syntax Society | Built with passion by developer, for developers
+      </div>
+    </div>
+  </footer>
+</body>
 </html>
